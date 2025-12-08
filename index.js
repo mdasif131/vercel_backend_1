@@ -14,25 +14,26 @@ import productRoutes from "./routes/productRoutes.js";
 import uploadRoutes from "./routes/uploadRoutes.js";
 import userRoutes from "./routes/userRoutes.js"; 
 import orderRoutes from './routes/orderRoutes.js'
+import mongoose from "mongoose";
 dotenv.config();
 const port = process.env.PORT || 5000; 
 
+const app = express();
 // Fix __dirname for ES modules
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 connectDB(); 
-const app = express();
 
 app.use(cors());
 app.use(express.json());
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 
-
 app.use("/api/auth", userRoutes);
 app.use('/api/category', categoryRoutes);
 app.use('/api/products', productRoutes);
 app.use('/api/uploads', uploadRoutes);
 app.use('/api/orders', orderRoutes);
+
 
 app.get('/api/config/paypal', (req, res) => {
   res.send({ clientId: process.env.PAYPAL_CLIENT_ID });
@@ -53,6 +54,8 @@ app.get('/',(req, res) => {
 });
 
 
-app.listen(port, () => {
-  console.log(`Server is running on port:${port}`);
-});
+// app.listen(port, () => {
+//   console.log(`Server is running on port:${port}`);
+// });
+
+export default app
