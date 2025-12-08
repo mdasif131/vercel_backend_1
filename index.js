@@ -23,7 +23,12 @@ const app = express();
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 connectDB(); 
 
-app.use(cors());
+app.use(
+  cors({
+    origin: ['https://sales-shop-one.vercel.app'],
+    credentials: true,
+  })
+);
 app.use(express.json());
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
