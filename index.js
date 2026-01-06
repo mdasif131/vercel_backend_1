@@ -23,15 +23,10 @@ const app = express();
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 connectDB(); 
 
-app.use(
-  cors({
-    origin: ['https://sales-shop-one.vercel.app'],
-    credentials: true,
-  })
-);
-app.use(express.json({ limit: '50mb' }));
+app.use(cors());
+app.use(express.json({ limit: '100mb' }));
 app.use(cookieParser());
-app.use(express.urlencoded({ limit: '50mb', extended: true }));
+app.use(express.urlencoded({ limit: '100mb', extended: true }));
 
 app.use("/api/auth", userRoutes);
 app.use('/api/category', categoryRoutes);
