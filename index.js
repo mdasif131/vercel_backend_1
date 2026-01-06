@@ -23,7 +23,13 @@ const app = express();
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 connectDB(); 
 
-app.use(cors());
+app.use(cors({
+  origin: [
+    'http://localhost:5173',
+    // 'https://your-site-name.netlify.app', // Add after you deploy
+  ],
+  credentials: true
+}));
 app.use(express.json({ limit: '100mb' }));
 app.use(cookieParser());
 app.use(express.urlencoded({ limit: '100mb', extended: true }));
