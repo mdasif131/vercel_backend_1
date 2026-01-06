@@ -26,7 +26,7 @@ connectDB();
 app.use(cors({
   origin: [
     'http://localhost:5173',
-    // 'https://your-site-name.netlify.app', // Add after you deploy
+    'https://tach-e-commerce-asif.netlify.app/', 
   ],
   credentials: true
 }));
