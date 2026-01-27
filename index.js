@@ -24,8 +24,14 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 connectDB(); 
 
 app.use(
-  cors(),
+  cors({
+    origin: 'https://e-shop-asif.netlify.app',
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    credentials: true,
+  }),
 );
+
 app.use(express.json({ limit: '100mb' }));
 app.use(cookieParser());
 app.use(express.urlencoded({ limit: '100mb', extended: true }));
@@ -56,8 +62,8 @@ app.get('/',(req, res) => {
 });
 
 
-app.listen(port, () => {
-  console.log(`Server is running on port:${port}`);
-});
+// app.listen(port, () => {
+//   console.log(`Server is running on port:${port}`);
+// });
 
-export default app
+// export default app
