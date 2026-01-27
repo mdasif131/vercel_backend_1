@@ -2,6 +2,7 @@ import fs from 'fs/promises';
 import asycHandler from '../middleware/asyncHandler.js';
 import ProductModel from '../models/productModel.js';
 import { getValidImagePath } from '../utils/removeUploadImgPath.js';
+import { searchAndPaginateService } from '../services/serarchAndPaginateService.js';
 
 export const addProduct = asycHandler(async (req, res) => {
   try {
@@ -174,8 +175,8 @@ export const addProductReview = asycHandler(async (req, res) => {
       product.reviews.push(review);
       product.numReviews = product.reviews.length;
       product.rating =
-        product.reviews.reduce((acc, item) => item.rating + acc, 0) /
-        product.reviews.length;
+      product.reviews.reduce((acc, item) => item.rating + acc, 0) /
+      product.reviews.length;
 
       await product.save();
       res.status(201).json({ message: 'Review added' });
@@ -220,4 +221,32 @@ export const filterProducts = asycHandler(async (req, res) => {
     console.error(error);
     res.status(400).json({ error: 'Could not filter products' });
   }
-})
+}) 
+export const searchAndPaginateProducts = asycHandler(async (req, res) => {
+  const SearchRgx = { $regex: req.params.searchKeyword, $options: 'i' };
+  const SearchArray = [
+    { name: SearchRgx },
+    { 'categories.name': SearchRgx },
+    { brand: SearchRgx },
+    { description: SearchRgx },
+  ];
+
+  const JoinStage = {
+    $lookup: {
+      from: 'categories', // ✅ Fixed - plural form
+      localField: 'category',
+      foreignField: '_id',
+      as: 'categories',
+    },
+  };
+
+  const result = await searchAndPaginateService(
+    req,
+    ProductModel,
+    SearchArray,
+    JoinStage,
+  );
+
+  res.json(result);
+});
+

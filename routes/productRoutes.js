@@ -13,6 +13,7 @@ import {
   fetchTopProducts,
   fetchNewProducts,
   filterProducts,
+  searchAndPaginateProducts,
 } from '../controllers/productController.js';
 const router = express.Router();
 
@@ -36,4 +37,7 @@ router
   .delete(authenticate, authorizeAdmin, removeProduct);
 
 router.route('/filtered-products').post(filterProducts);
+router
+  .route('/products-list/:pageNo/:perPage/:searchKeyword')
+  .get(searchAndPaginateProducts);
 export default router;

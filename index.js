@@ -23,13 +23,9 @@ const app = express();
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 connectDB(); 
 
-app.use(cors({
-  origin: [
-    'http://localhost:5173',
-    'https://tach-e-commerce-asif.netlify.app/', 
-  ],
-  credentials: true
-}));
+app.use(
+  cors(),
+);
 app.use(express.json({ limit: '100mb' }));
 app.use(cookieParser());
 app.use(express.urlencoded({ limit: '100mb', extended: true }));
@@ -60,8 +56,8 @@ app.get('/',(req, res) => {
 });
 
 
-// app.listen(port, () => {
-//   console.log(`Server is running on port:${port}`);
-// });
+app.listen(port, () => {
+  console.log(`Server is running on port:${port}`);
+});
 
 export default app
